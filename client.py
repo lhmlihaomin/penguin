@@ -94,8 +94,55 @@ class QcloudClient(object):
         result = self.parse_result(action, result)
         return result
 
-    def run_instances(self):
-        pass
+    def run_instances(self, params):
+        """
+        Create new CVM instances.
+        -----
+        params:
+        {
+            'Zone': 'zone-name',
+            'InstanceType': 'INSTANCE.TYPE',
+            'ImageId': 'img-id',
+            'VpcId': 'vpc-id',
+            'SubnetId': 'subnet-id',
+            'InstanceCount': int,
+            'KeyId': 'skey-id',
+            'SecurityGroupId': 'sg-id'
+        }
+        """
+        self.set_service('cvm')
+        action = 'RunInstances'
+        try:
+            action_params = {
+                'Version': API_VERSION,
+                'InstanceChargeType': 'POSTPAID_BY_HOUR',
+                'Placement': {
+                    'Zone': params['Zone'],
+                },
+                'InstanceType': params['InstanceType'],
+                'ImageId': params['ImageId'],
+                'VirtualPrivateCloud': {
+                    'VpcId': params['VpcId'],
+                    'SubnetId': params['SubnetId'],
+                },
+                'InstanceCount': params['InstanceCount'],
+                #'InstanceName': generated,
+                'LoginSettings': {
+                    'KeyIds': [
+                        params['KeyId'],
+                    ]
+                },
+                'SecurityGroupIds': [
+                    params['SecurityGroupId'],
+                ],
+            }
+        except KeyError:
+            pass
+        result = self.service.call(action, action_params)
+        print result
+        result = self.parse_result(action, result)
+        return result
+        
 
     def start_instances(self, instance_ids):
         """Start (boot) CVM instances"""
@@ -121,12 +168,42 @@ class QcloudClient(object):
         result = self.parse_result(action, result)
         return result
 
+    def terminate_instances(self, instance_ids):
+        """Terminate (destroy) CVM instances"""
+        self.set_service('cvm')
+        action = 'TerminateInstances'
+        params = {
+            'Version': API_VERSION,
+            'InstanceIds': instance_ids,
+        }
+        result = self.service.call(action, params)
+        result = self.parse_result(action, result)
+        return result
+
+    def modify_instances_attribute(self, params):
+        """Edit instance attribute (currently only support InstanceName)"""
+        self.set_service('cvm')
+        action = 'ModifyInstancesAttribute'
+        params = {
+            'Version': API_VERSION,
+            'InstanceIds': params['InstanceIds'],
+            'InstanceName': params['InstanceName']
+        }
+        result = self.service.call(action, params)
+        result = self.parse_result(action, result)
+        return result
+
     def modify_instance_security_group(self):
+        """Associate another SG with CVM instance"""
+        self.set_service('dfw')
+        action = 'ModifySecurityGroupsOfInstance'
         pass
 
     def modify_instance_tags(self):
+        """Not implemented"""
         pass
 
     def modify_volume_tags(self):
+        """Not implemented"""
         pass
 
