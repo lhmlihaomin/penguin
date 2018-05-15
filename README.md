@@ -1,4 +1,4 @@
-云平台服务统一接口
+云平台服务统一接口 - Python
 ===
 
 <!-- TOC -->
@@ -33,7 +33,11 @@
 
 # 2. 基础接口
 ## 2.1. 身份验证
-Access Key / IAM Instance Profile
+各个云服务提供商应当都提供了使用 API Key 的方式来进行身份验证，例如腾讯云的API密钥，AWS的Acess Key等。
+
+文档中描述的接口在针对各云服务进行实现时，应当将 API Key 作为必选参数，并按照服务提供商的 API 要求，在请求中加入合适的身份验证信息。
+
+特别的，AWS服务提供了 IAM Role / Instance Profile 的方式来进行API调用的身份验证，其 access_key_id 与 secret_access_key 可不做必选参数。当调用时未传入 API Key 时，默认使用 IAM Role 的方式进行身份验证。
 
 ## 2.2. API Key 管理
 使用类似 AWSCLI 的方式从磁盘特定位置（~/.aws/credentials）自动读取指定的 API Key 。
@@ -52,6 +56,38 @@ Access Key / IAM Instance Profile
 5. 销毁现有主机 - DestroyInstances
 
 ### 3.1.1. 读取主机信息 (DescribeInstances)
+__参数__
+|Argument|Type|Description|
+|---|---|---|
+|InstanceIds|list|List of instance ids|
+|Filters|list|List of filters|
+
+Filters 结构:
+```
+[
+    {
+        'Filter1': 'Value1',
+        'Filter2': ['Value2', 'Value3'],
+        ...
+    }
+]
+```
+
+__返回值__
+```
+Response = [
+    {
+        'InstanceId': '',
+        ...
+    },
+    {
+        'InstanceId': '',
+        ...
+    },
+    ...
+]
+```
+
 ### 3.1.2. 创建新主机 (CreateInstances)
 ### 3.1.3. 启动现有主机 (StartInstances)
 ### 3.1.4. 关闭现有主机 (StopInstances)
