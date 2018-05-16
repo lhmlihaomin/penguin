@@ -14,6 +14,7 @@
         - [3.1.3. 启动现有主机 (StartInstances)](#313-启动现有主机-startinstances)
         - [3.1.4. 关闭现有主机 (StopInstances)](#314-关闭现有主机-stopinstances)
         - [3.1.5. 销毁现有主机 (DestroyInstances)](#315-销毁现有主机-destroyinstances)
+        - [3.1.6. 修改主机安全组 (ModifyInstanceGroups)](#316-修改主机安全组-modifyinstancegroups)
     - [3.2. 网络](#32-网络)
         - [3.2.1. 读取路由条目 (DescribeRouteTables)](#321-读取路由条目-describeroutetables)
         - [3.2.2. 设置路由条目 (ReplaceRoutes)](#322-设置路由条目-replaceroutes)
@@ -31,13 +32,17 @@
 + AWS
 + 腾讯云
 
+本文中定义的接口均为当前运维和测试系统中使用到的接口，并会根据实际开发中的需求不断更新完善。
+
+鉴于当前的运维测试等系统均基于AWS的API所开发，封装时，接口的参数与返回值结构应当尽量与AWS接近，以求降低移植的成本。
+
+
+
 # 2. 基础接口
 ## 2.1. 身份验证
-各个云服务提供商应当都提供了使用 API Key 的方式来进行身份验证，例如腾讯云的API密钥，AWS的Acess Key等。
+目前，需要支持的云服务提供商都拥有API Key的机制，使用一对key & secret key来对API调用进行身份验证。因此身份验证可以使用相同的参数进行处理。
 
-文档中描述的接口在针对各云服务进行实现时，应当将 API Key 作为必选参数，并按照服务提供商的 API 要求，在请求中加入合适的身份验证信息。
-
-特别的，AWS服务提供了 IAM Role / Instance Profile 的方式来进行API调用的身份验证，其 access_key_id 与 secret_access_key 可不做必选参数。当调用时未传入 API Key 时，默认使用 IAM Role 的方式进行身份验证。
+由于AWS提供了IAM Role/Instance Profile等机制，可以在不提供任何API Key的情况下完成身份认证，这两个参数不是必选的。
 
 ## 2.2. API Key 管理
 使用类似 AWSCLI 的方式从磁盘特定位置（~/.aws/credentials）自动读取指定的 API Key 。
@@ -54,6 +59,7 @@
 3. 启动现有主机 - StartInstances
 4. 关闭现有主机 - StopInstances
 5. 销毁现有主机 - DestroyInstances
+6. 修改主机安全组 - ModifyInstanceGroups
 
 ### 3.1.1. 读取主机信息 (DescribeInstances)
 __参数__
@@ -92,6 +98,7 @@ Response = [
 ### 3.1.3. 启动现有主机 (StartInstances)
 ### 3.1.4. 关闭现有主机 (StopInstances)
 ### 3.1.5. 销毁现有主机 (DestroyInstances)
+### 3.1.6. 修改主机安全组 (ModifyInstanceGroups)
 
 ## 3.2. 网络
 此模块中包含的接口对应以下服务：
