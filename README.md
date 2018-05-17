@@ -65,26 +65,40 @@
 __参数__
 |Argument|Type|Description|
 |---|---|---|
-|InstanceIds|list|List of instance ids|
-|Filters|list|List of filters|
+|instance_ids|list|List of instance ids|
+|filters|list|List of filters|
 
-Filters 结构:
 ```
-[
+# Filters 结构:
+filters = [
     {
         'Filter1': 'Value1',
         'Filter2': ['Value2', 'Value3'],
         ...
     }
 ]
+
+# 支持的过滤属性：
+{
+    'InstanceIds': '主机实例ID',
+    'Name': '主机名称 (tag:Name/name)',
+    'State': '运行状态',
+}
 ```
 
 __返回值__
 ```
-Response = [
+RetVal = [
     {
-        'InstanceId': '',
-        ...
+        'InstanceId': 'str',
+        'State': 'str',
+        'PrivateIpAddress': 'str',
+        'VpcId': 'str',
+        'ImageId': 'str',
+        'KeyName': 'str',
+        'SecurityGroups': [list],
+        'SubnetId': 'str',
+        'InstanceType': 'str,
     },
     {
         'InstanceId': '',
@@ -95,6 +109,12 @@ Response = [
 ```
 
 ### 3.1.2. 创建新主机 (CreateInstances)
+__参数__
+|Argument|Type|Description|
+|---|---|---|
+|image_id|str||
+
+
 ### 3.1.3. 启动现有主机 (StartInstances)
 ### 3.1.4. 关闭现有主机 (StopInstances)
 ### 3.1.5. 销毁现有主机 (DestroyInstances)
