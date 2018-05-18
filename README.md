@@ -80,7 +80,6 @@ filters = [
 
 # 支持的过滤属性：
 {
-    'InstanceIds': '主机实例ID',
     'Name': '主机名称 (tag:Name/name)',
     'State': '运行状态',
 }
@@ -116,9 +115,29 @@ __参数__
 
 
 ### 3.1.3. 启动现有主机 (StartInstances)
+__参数__
+|Argument|Type|Description|
+|---|---|---|
+|instance_ids|list||
+
 ### 3.1.4. 关闭现有主机 (StopInstances)
+__参数__
+|Argument|Type|Description|
+|---|---|---|
+|instance_ids|list||
+
 ### 3.1.5. 销毁现有主机 (DestroyInstances)
+__参数__
+|Argument|Type|Description|
+|---|---|---|
+|instance_ids|list||
+
 ### 3.1.6. 修改主机安全组 (ModifyInstanceGroups)
+__参数__
+|Argument|Type|Description|
+|---|---|---|
+|instance_ids|list||
+|group_ids|list||
 
 ## 3.2. 网络
 此模块中包含的接口对应以下服务：
