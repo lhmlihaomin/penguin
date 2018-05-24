@@ -24,7 +24,7 @@
         - [3.3.2. 将主机注册到负载均衡器后端](#332)
         - [3.3.3. 将主机从负载均衡器后端移除](#333)
     - [3.4. 对象型存储](#34)
-        - [3.4.1. 上传文件 (UploadFile)](#341--uploadfile)
+        - [3.4.1. 上传文件](#341)
 
 <!-- /TOC -->
 
@@ -55,15 +55,15 @@
 * 腾讯云: CVM
 
 云服务器资源需要实现以下接口：
-1. 读取主机信息 - DescribeInstances
-2. 创建新主机 - CreateInstances
-3. 启动现有主机 - StartInstances
-4. 关闭现有主机 - StopInstances
-5. 销毁现有主机 - DestroyInstances
-6. 修改主机安全组 - ModifyInstanceGroups
+1. 读取主机信息 - describe_instances
+2. 创建新主机 - create_instances
+3. 启动现有主机 - start_instances
+4. 关闭现有主机 - stop_instances
+5. 销毁现有主机 - terminate_instances
+6. 修改主机安全组 - modify_instance_groups
 
 ### 3.1.1. 读取主机信息
-DescribeInstances
+describe_instances
 
 __参数__
 
@@ -113,7 +113,7 @@ RetVal = [
 ```
 
 ### 3.1.2. 创建新主机
-CreateInstances
+create_instances
 
 __参数__
 
@@ -123,7 +123,7 @@ __参数__
 
 
 ### 3.1.3. 启动现有主机
-StartInstances
+start_instances
 
 __参数__
 
@@ -132,7 +132,7 @@ __参数__
 |instance_ids|list||
 
 ### 3.1.4. 关闭现有主机
-StopInstances
+stop_instances
 
 __参数__
 
@@ -141,7 +141,7 @@ __参数__
 |instance_ids|list||
 
 ### 3.1.5. 销毁现有主机
-DestroyInstances
+terminate_instances
 
 __参数__
 
@@ -150,7 +150,7 @@ __参数__
 |instance_ids|list||
 
 ### 3.1.6. 修改主机安全组
-ModifyInstanceGroups
+modify_instance_groups
 
 __参数__
 
@@ -165,11 +165,11 @@ __参数__
 * 腾讯云: VPC
 
 网络相关的接口包括：
-1. 读取路由条目 - DescribeRouteTables
-2. 设置路由条目 - ReplaceRoutes
+1. 读取路由条目 - describe_route_tables
+2. 设置路由条目 - replace_routes
 
 ### 3.2.1. 读取路由条目
-DescribeRouteTables
+describe_route_tables
 
 __参数__
 
@@ -178,7 +178,7 @@ __参数__
 |vpc_id|str||
 
 ### 3.2.2. 设置路由条目
-ReplaceRoutes
+replace_routes
 
 __参数__
 
@@ -193,12 +193,12 @@ __参数__
 * 腾讯云: CLB
 
 接口列表：
-1. 读取负载均衡器后端健康状况 - DescribeLoadBalancerHealth
-2. 将主机注册到负载均衡器后端 - RegisterInstancesWithLoadBalancer
-3. 将主机从负载均衡器后端移除 - DeregisterInstancesFromLoadBalancer
+1. 读取负载均衡器后端健康状况 - describe_lb_health
+2. 将主机注册到负载均衡器后端 - register_instances_with_lb
+3. 将主机从负载均衡器后端移除 - deregister_instances_from_lb
 
 ### 3.3.1. 读取负载均衡器后端健康状况
-DescribeLoadBalancerHealth
+describe_lb_health
 
 __参数__
 
@@ -207,10 +207,10 @@ __参数__
 
 
 ### 3.3.2. 将主机注册到负载均衡器后端
-RegisterInstancesWithLoadBalancer
+register_instances_with_lb
 
 ### 3.3.3. 将主机从负载均衡器后端移除
-DeregisterInstancesFromLoadBalancer
+deregister_instances_from_lb
 
 ## 3.4. 对象型存储
 此模块中包含的接口对应以下服务：
@@ -218,6 +218,7 @@ DeregisterInstancesFromLoadBalancer
 * 腾讯云: COS
 
 接口列表：
-1. 上传文件 - UploadFile
+1. 上传文件 - upload_file
 
-### 3.4.1. 上传文件 (UploadFile)
+### 3.4.1. 上传文件
+upload_file
