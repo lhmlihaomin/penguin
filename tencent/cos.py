@@ -1,3 +1,6 @@
+import os
+import hashlib
+
 from qcloud_cos import CosConfig
 from qcloud_cos import CosS3Client
 
@@ -16,9 +19,22 @@ class Client(object):
             )
         self.client = CosS3Client(self.config)
 
+    def file_md5(self, local_path):
+        file_size = os.path.getsize(local_path)        
+        with open(local_path, 'rb') as fp:
+            file_hash = hashlib.md5(fp.read())
+        return file_hash.hexdigest()
+            
+
     def download_file(self, bucket, key, local_path):
         resp = self.client.get_object(bucket, key)
         resp['Body'].get_stream_to_file(local_path)
 
     def upload_file(self, bucket, key, local_path):
-        pass
+        file_md5 = self.file_md5(local_path)
+        print "file md5:   "+file_md5
+        with open(local_path, 'r') as fp:
+            response = self.client.put_object(bucket, fp, key)
+            print "upload md5: "+response['Etag']
+        return file_md5 == response['Etag'][1:-1]
+
