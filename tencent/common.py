@@ -11,5 +11,6 @@ def load_config(profile_name):
     
     secret_id = config.get(profile_name, 'SecretId')
     secret_key = config.get(profile_name, 'SecretKey')
+    app_id = config.get(profile_name, 'AppId')
     
-    return [secret_id, secret_key]
+    return [secret_id, secret_key, app_id]

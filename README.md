@@ -25,6 +25,7 @@
         - [3.3.3. 将主机从负载均衡器后端移除](#333)
     - [3.4. 对象型存储](#34)
         - [3.4.1. 上传文件](#341)
+        - [下载文件](#)
 
 <!-- /TOC -->
 
@@ -219,6 +220,34 @@ deregister_instances_from_lb
 
 接口列表：
 1. 上传文件 - upload_file
+2. 下载文件 - download_file
 
 ### 3.4.1. 上传文件
 upload_file
+
+__参数__
+
+|Argument|Type|Description|
+|---|---|---|
+|bucket|str|存储桶名称|
+|key|str|上传路径，e.g. '/path/to/file.txt'|
+|local_path|str|待上传文件的本地磁盘路径|
+
+__返回值__
+
+True: 上传成功；False: 上传失败
+
+### 下载文件
+download_file
+
+__参数__
+
+|Argument|Type|Description|
+|---|---|---|
+|bucket|str|存储桶名称|
+|key|str|欲下载文件的路径，e.g. '/path/to/file.txt'|
+|local_path|str|下载文件的本地存储路径|
+
+__返回值__
+
+None
