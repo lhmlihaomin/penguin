@@ -13,10 +13,14 @@ class Client(object):
             ).resource('s3')
 
     def download_file(self, bucket, key, local_path):
+        if key.startswith('/'):
+            key = key[1:]
         bucket = self.s3.Bucket(bucket)
         bucket.download_file(key, local_path)
         
 
     def upload_file(self, bucket, key, local_path):
+        if key.startswith('/'):
+            key = key[1:]
         bucket = self.s3.Bucket(bucket)
-        bucket.download_file(local_path, key)
+        bucket.upload_file(local_path, key)

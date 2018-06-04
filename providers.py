@@ -6,7 +6,7 @@ class Provider(object):
     services = {
         'aws': [
             'ec2',
-            's3',
+            'object_store',
         ],
         'tencent': [
             'cos'
