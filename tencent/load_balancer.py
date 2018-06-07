@@ -25,6 +25,15 @@ class Client(object):
         self.app_id = app_id
 
     def describe_lb_health(self, load_balancer_id):
+        """
+        Queries backend server status.
+        Returns: dict
+        {
+            "instance_id_1": True,
+            "instance_id_2": False,
+            ...
+        }
+        """
         params = public_params(self.region_name, self.secret_id)
         # get backend instance information (LAN IP & instance Id):
         params.update(
@@ -63,8 +72,41 @@ class Client(object):
             })
         return result
 
-    def register_instances_with_lb(self, load_balancer_name, instance_ids):
-        pass
+    def register_instances_with_lb(self, load_balancer_id, instance_ids):
+        """Register instances"""
+        params = public_params(self.region_name, self.secret_id)
+        params.update(
+            {
+                'Action': 'RegisterInstancesWithLoadBalancer',
+                'loadBalancerId': load_balancer_id,
+            }
+        )
+        for index, instance_id in enumerate(instance_ids):
+            params.update({
+                'backends.'+str(index)+'.instanceId': instance_id
+            })
+        resp = raw_request(self.secret_key, self.method, self.endpoint, params)
+        if resp['code'] == 0:
+            return True
+        else:
+            raise Exception(resp['message'])
 
-    def deregister_instances_from_lb(self, load_balancer_name, instance_ids):
-        pass
+
+    def deregister_instances_from_lb(self, load_balancer_id, instance_ids):
+        """Deregister instances"""
+        params = public_params(self.region_name, self.secret_id)
+        params.update(
+            {
+                'Action': 'DeregisterInstancesFromLoadBalancer',
+                'loadBalancerId': load_balancer_id,
+            }
+        )
+        for index, instance_id in enumerate(instance_ids):
+            params.update({
+                'backends.'+str(index)+'.instanceId': instance_id
+            })
+        resp = raw_request(self.secret_key, self.method, self.endpoint, params)
+        if resp['code'] == 0:
+            return True
+        else:
+            raise Exception(resp['message'])

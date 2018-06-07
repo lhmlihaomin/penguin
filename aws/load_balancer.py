@@ -14,6 +14,15 @@ class Client(object):
         ).client('elb')
 
     def describe_lb_health(self, load_balancer_name):
+        """
+        Queries backend server status.
+        Returns: dict
+        {
+            "instance_id_1": True,
+            "instance_id_2": False,
+            ...
+        }
+        """
         response = self.elb.describe_instance_health(
             LoadBalancerName=load_balancer_name
         )
@@ -24,4 +33,9 @@ class Client(object):
                 state['InstanceId']: state['State'] == 'InService'
             })
         return result
-        
+
+    def register_instances_with_lb(self, load_balancer_name, instance_ids):
+        pass
+
+    def deregister_instances_from_lb(self, load_balancer_name, instance_ids):
+        pass
