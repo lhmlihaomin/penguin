@@ -9,7 +9,8 @@ class Provider(object):
             'object_store',
         ],
         'tencent': [
-            'cos'
+            'object_store',
+            'load_balancer'
         ]
     }
 
