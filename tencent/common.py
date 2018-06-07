@@ -61,16 +61,19 @@ def public_params(region, secret_id):
     params = {
         'Region': region,
         'Timestamp': int(time.time()),
-        'Nonce': random(1,10000),
+        'Nonce': random.randint(1,10000),
         'SecretId': secret_id,
         "SignatureMethod" : "HmacSHA256",
     }
+    return params
 
 
-def raw_request(method, url, data):
+def raw_request(secret_key, method, endpoint, params):
     """Manually make request to endpoint with `requests` lib."""
+    query = sign_query(secret_key, method, endpoint, params)
     if method.upper() == 'GET':
+        url = "https://"+endpoint+"?"+query
         response = requests.get(url)
     elif method.upper() == 'POST':
-        response = requests.post(url, data)
+        response = requests.post(url, query)
     return response.json()
