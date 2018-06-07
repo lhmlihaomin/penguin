@@ -5,12 +5,12 @@ class Provider(object):
 
     services = {
         'aws': [
-            'ec2',
             'object_store',
+            'load_balancer',
         ],
         'tencent': [
             'object_store',
-            'load_balancer'
+            'load_balancer',
         ]
     }
 
