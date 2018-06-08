@@ -35,7 +35,31 @@ class Client(object):
         return result
 
     def register_instances_with_lb(self, load_balancer_name, instance_ids):
-        pass
+        """Register instances."""
+        param = []
+        for instance_id in instance_ids:
+            param.append({'InstanceId': instance_id})
+        res = self.elb.register_instances_with_load_balancer(
+            LoadBalancerName=load_balancer_name,
+            Instances=param
+        )
+        new_ids = [x['InstanceId'] for x in res['Instances']]
+        for instance_id in instance_ids:
+            if instance_id not in new_ids:
+                return False
+        return True
 
     def deregister_instances_from_lb(self, load_balancer_name, instance_ids):
-        pass
+        """Deregister instances."""
+        param = []
+        for instance_id in instance_ids:
+            param.append({'InstanceId': instance_id})
+        res = self.elb.deregister_instances_from_load_balancer(
+            LoadBalancerName=load_balancer_name,
+            Instances=param
+        )
+        new_ids = [x['InstanceId'] for x in res['Instances']]
+        for instance_id in instance_ids:
+            if instance_id in new_ids:
+                return False
+        return True
