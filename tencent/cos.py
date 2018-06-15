@@ -21,7 +21,7 @@ class Client(object):
         self.client = CosS3Client(self.config)
 
     def file_md5(self, local_path):
-        file_size = os.path.getsize(local_path)        
+        #file_size = os.path.getsize(local_path)        
         with open(local_path, 'rb') as fp:
             file_hash = hashlib.md5(fp.read())
         return file_hash.hexdigest()
@@ -39,4 +39,16 @@ class Client(object):
         with open(local_path, 'r') as fp:
             response = self.client.put_object(bucket, fp, key)
             print "upload md5: "+response['Etag']
+        return file_md5 == response['Etag'][1:-1]
+
+    def upload_file_ex(self, bucket, key, local_path):
+        bucket = '-'.join([bucket, self.app_id])
+        file_md5 = self.file_md5(local_path)
+        print "file md5:   "+file_md5
+        response = self.client.upload_file(
+            Bucket=bucket,
+            Key=key,
+            LocalFilePath=local_path   
+        )
+        print "upload md5: "+response['Etag']
         return file_md5 == response['Etag'][1:-1]
