@@ -51,4 +51,8 @@ class Client(object):
             LocalFilePath=local_path   
         )
         print "upload md5: "+response['Etag']
-        return file_md5 == response['Etag'][1:-1]
+
+        # API doesn't return anything when using multipart upload,
+        # so just return True.
+        return True
+        #return file_md5 == response['Etag'][1:-1]
